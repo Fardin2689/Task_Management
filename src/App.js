@@ -1,6 +1,6 @@
 import "./App.css";
 import React from "react";
-import Item from "./components/Item";
+import TaskList from "./components/TaskList";
 import ItemDialog from "./components/ItemDialog";
 import DeleteDialog from "./components/DeleteDialog";
 import Header from "./components/Header";
@@ -9,7 +9,7 @@ function App() {
   const [tasks, setTasks] = React.useState(
     JSON.parse(localStorage.getItem("data")) || []
   );
-
+  const [search, setSearch] = React.useState("");
   const [openAddDialog, setOpenAddDialog] = React.useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
   const [task, setTask] = React.useState({});
@@ -57,32 +57,18 @@ function App() {
     setTask({});
   };
 
-  const handleSearchChange = (search = "") => {
-    const filterTasks = JSON.parse(localStorage.getItem("data")).filter(
-      (item) => item.title.includes(search) || item.description.includes(search)
-    );
-    setTasks(filterTasks);
-  };
-
   return (
     <div className="App">
       <Header
         handleOpenDialog={handleOpenAddDialog}
-        handleSearchChange={handleSearchChange}
+        handleSearchChange={(search) => setSearch(search)}
       />
-      {tasks.length >= 1 ? (
-        tasks.map((item) => (
-          <Item
-            title={item.title}
-            description={item.description}
-            key={item.id}
-            handleDeleteTask={() => handleOpenDeleteDialog(item.id)}
-            handleEditTask={() => handleOpenEditDialog(item.id)}
-          />
-        ))
-      ) : (
-        <h4>There is no task! Create One</h4>
-      )}
+      <TaskList
+        tasks={tasks}
+        search={search}
+        handleOpenDeleteDialog={handleOpenDeleteDialog}
+        handleOpenEditDialog={handleOpenEditDialog}
+      />
       <ItemDialog
         open={openAddDialog}
         task={task}
