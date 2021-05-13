@@ -13,3 +13,9 @@ Simply run the bellow scripts
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+## Future tasks
+
+1- Adding status to any task [Open, In Progress and Done]
+2- Search Based on status
+3- Validating data
